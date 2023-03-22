@@ -7,8 +7,16 @@ environment:
   sdk: '>=2.19.4 <3.0.0'
 
 dependencies:
+  domain_models:
+    path: packages/domain_models
+  fav_qs_api:
+    path: packages/fav_qs_api
   flutter:
     sdk: flutter
+  key_value_storage:
+    path: packages/key_value_storage
+  user_repository:
+    path: packages/user_repository
 
 dev_dependencies:
   flutter_test:

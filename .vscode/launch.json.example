@@ -1,0 +1,12 @@
+{
+    "version": "0.2.0",
+    "configurations": [
+        {
+        "name": "Launch app",
+        "request": "launch",
+        "type": "dart",
+        "program": "lib/main.dart",
+        "args": ["--dart-define", "fav-qs-app-token=YOUR_API_TOKEN"]
+        }
+    ]
+}

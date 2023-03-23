@@ -2,7 +2,7 @@
 
 import 'package:domain_models/domain_models.dart';
 import 'package:flutter/material.dart';
-import 'package:form_validation_simple/ui_elements/expanded_elevated_button.dart';
+import 'package:component_library/component_library.dart';
 
 class SignUpSubmitButton extends StatelessWidget {
   const SignUpSubmitButton({
@@ -17,7 +17,6 @@ class SignUpSubmitButton extends StatelessWidget {
     required this.setIsFormDirty,
     required this.hasAsyncErrors,
     required this.getUsername,
-    required this.showSnackbar,
     super.key,
   });
 
@@ -32,7 +31,6 @@ class SignUpSubmitButton extends StatelessWidget {
   final ValueSetter<bool> setIsFormDirty;
   final bool hasAsyncErrors;
   final String? Function() getUsername;
-  final void Function(String) showSnackbar;
 
   @override
   Widget build(BuildContext context) {
@@ -62,8 +60,12 @@ class SignUpSubmitButton extends StatelessWidget {
                   } else if (error is EmailAlreadyRegisteredException) {
                     setIsEmailAlreadyRegistered(true);
                   } else {
-                    showSnackbar(
-                        'Something went wrong. Please try again later.');
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      const SnackBar(
+                        content: Text(
+                            'Something went wrong. Please try again later.'),
+                      ),
+                    );
                   }
                 } finally {
                   setIsSubmittingForm(false);

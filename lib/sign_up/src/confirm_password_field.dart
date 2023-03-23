@@ -17,14 +17,16 @@ class ConfirmPasswordField extends StatefulWidget {
 class _ConfirmPasswordFieldState extends State<ConfirmPasswordField> {
   bool _obscureText = true;
 
+  // if the field is hidden behind the keyboard, you might need to do this
+  // to get the TextInputAction.next to work
+  // https://github.com/flutter/flutter/issues/113668#issuecomment-1283639077
+
   @override
   Widget build(BuildContext context) {
     return TextFormField(
+      autovalidateMode: AutovalidateMode.onUserInteraction,
       decoration: InputDecoration(
         labelText: 'Confirm Password',
-        focusedBorder: const UnderlineInputBorder(
-          borderSide: BorderSide(color: Colors.orangeAccent),
-        ),
         suffixIcon: IconButton(
           onPressed: () {
             setState(() {
@@ -47,6 +49,7 @@ class _ConfirmPasswordFieldState extends State<ConfirmPasswordField> {
         }
         return null;
       },
+      textInputAction: TextInputAction.done,
     );
   }
 }

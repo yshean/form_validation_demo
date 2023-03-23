@@ -39,19 +39,30 @@ class _MainAppState extends State<MainApp> {
   Widget build(BuildContext context) {
     return MaterialApp(
       scaffoldMessengerKey: _scaffoldMessengerKey,
+      theme: ThemeData(
+        appBarTheme: AppBarTheme.of(context).copyWith(
+          backgroundColor: Colors.greenAccent,
+          foregroundColor: Colors.black,
+        ),
+        elevatedButtonTheme: ElevatedButtonThemeData(
+          style: ElevatedButton.styleFrom(
+            backgroundColor: Colors.greenAccent,
+            foregroundColor: Colors.black,
+          ),
+        ),
+        inputDecorationTheme: const InputDecorationTheme(
+            labelStyle: TextStyle(color: Colors.black54),
+            focusedBorder: UnderlineInputBorder(
+              borderSide: BorderSide(color: Colors.greenAccent),
+            ),
+            suffixIconColor: Colors.greenAccent),
+      ),
       home: SignUpScreen(
         userRepository: _userRepository,
         onSignUpSuccess: (username) {
           _scaffoldMessengerKey.currentState?.showSnackBar(
             SnackBar(
               content: Text('Welcome to the club, $username'),
-            ),
-          );
-        },
-        showSnackbar: (snackbarText) {
-          _scaffoldMessengerKey.currentState?.showSnackBar(
-            SnackBar(
-              content: Text(snackbarText),
             ),
           );
         },

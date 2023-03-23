@@ -20,11 +20,9 @@ class _PasswordFieldState extends State<PasswordField> {
   @override
   Widget build(BuildContext context) {
     return TextFormField(
+      autovalidateMode: AutovalidateMode.onUserInteraction,
       decoration: InputDecoration(
         labelText: 'Password',
-        focusedBorder: const UnderlineInputBorder(
-          borderSide: BorderSide(color: Colors.orangeAccent),
-        ),
         suffixIcon: IconButton(
           onPressed: () {
             setState(() {
@@ -38,11 +36,7 @@ class _PasswordFieldState extends State<PasswordField> {
       ),
       obscureText: _obscureText,
       onChanged: widget.setValue,
-      onSaved: (value) {
-        if (value != null) {
-          widget.setValue(value);
-        }
-      },
+      onSaved: widget.setValue,
       // The validator receives the text that the user has entered
       validator: (value) {
         if (value == null || value.isEmpty) {
@@ -56,6 +50,10 @@ class _PasswordFieldState extends State<PasswordField> {
         }
         return null;
       },
+      textInputAction: TextInputAction.next,
+      // to fix TextInputAction.next not working when there is a suffixIcon
+      // https://www.reddit.com/r/flutterhelp/comments/xl9jrx/comment/ipo9zd2/
+      onFieldSubmitted: (_) => FocusScope.of(context).nextFocus(),
     );
   }
 }

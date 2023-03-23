@@ -2,7 +2,7 @@
 
 import 'package:flutter/material.dart';
 
-class EmailField extends StatelessWidget {
+class EmailField extends StatefulWidget {
   const EmailField({
     required this.isEmailAlreadyRegistered,
     required this.setValue,
@@ -14,36 +14,42 @@ class EmailField extends StatelessWidget {
   final ValueSetter<String?> setValue;
   final ValueSetter<bool> setIsEmailAlreadyRegistered;
 
-  RegExp get _emailRegex => RegExp(
-        r'^(([\w-]+\.)+[\w-]+|([a-zA-Z]|[\w-]{2,}))@((([0-1]?'
-        r'[0-9]{1,2}|25[0-5]|2[0-4][0-9])\.([0-1]?[0-9]{1,2}|25[0-5]|2[0-4][0-9])\.'
-        r'([0-1]?[0-9]{1,2}|25[0-5]|2[0-4][0-9])\.([0-1]?[0-9]{1,2}|25[0-5]|2[0-4][0-9])'
-        r')|([a-zA-Z]+[\w-]+\.)+[a-zA-Z]{2,4})$',
-      );
+  @override
+  State<EmailField> createState() => _EmailFieldState();
+}
+
+class _EmailFieldState extends State<EmailField> {
+  // see https://stackoverflow.com/a/742455/14052058 for discussion
+  RegExp get _emailRegex => RegExp(r'^\S+@\S+$');
+
+  final _controller = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
     return TextFormField(
-      // initialValue: 'abc@example.com',
+      controller: _controller,
+      autovalidateMode: AutovalidateMode.onUserInteraction,
       decoration: InputDecoration(
         labelText: 'Email',
-        focusedBorder: const UnderlineInputBorder(
-          borderSide: BorderSide(color: Colors.orangeAccent),
-        ),
-        errorText: isEmailAlreadyRegistered
+        // this is a workaround for async validations
+        errorText: widget.isEmailAlreadyRegistered
             ? 'Email address is already registered'
+            : null,
+        suffixIcon: _controller.text.isNotEmpty
+            ? IconButton(
+                onPressed: () {
+                  _controller.clear();
+                  widget.setValue(null);
+                },
+                icon: const Icon(Icons.clear),
+              )
             : null,
       ),
       onChanged: (value) {
         // clear submission error of email field
-        setIsEmailAlreadyRegistered(false);
+        widget.setIsEmailAlreadyRegistered(false);
       },
-      onSaved: (value) {
-        // _email = value;
-        if (value != null) {
-          setValue(value);
-        }
-      },
+      onSaved: widget.setValue,
       // The validator receives the text that the user has entered
       validator: (value) {
         if (value == null || value.isEmpty) {
@@ -54,6 +60,7 @@ class EmailField extends StatelessWidget {
         }
         return null;
       },
+      textInputAction: TextInputAction.next,
     );
   }
 }

@@ -8,7 +8,7 @@ This repository contains packages that are part of the [materials](https://githu
 
 ## What this demo shows
 
-![flutter form and textformfield validation demo video](form_validation_demo.gif)
+<img src="form_validation_demo.gif" height="600"/>
 
 - Sync/realtime validation errors (e.g. check if the field is empty, if number of characters meet a minimum length, if it matches a regular expression, etc.)
 - Validate fields that are dependent on each other (e.g. password and confirm password)
